@@ -1,0 +1,121 @@
+services:
+    log.service:
+        class: App\Service\LogService
+
+    helper.service:
+        class: App\Service\Helper
+        arguments:
+            - "@doctrine.orm.entity_manager"
+            - "@queue.service"
+            - "@serializer"
+        
+    parser.decompose.service:
+        class: App\Service\ParserDecompose
+        arguments:
+            - "@doctrine.orm.entity_manager"
+            - "%venera.parser.param%"
+        
+    venera.parser.service:
+        class: App\Service\VeneraParser
+        arguments:
+            - "@helper.service"
+            - "@parser.decompose.service"
+            - "@log.service"
+        
+    persist.parser.service:
+        class: App\Service\Persist
+        arguments:
+            - "@doctrine.orm.entity_manager"
+            - "@log.service"
+                
+    validator.parser.service:
+        class: App\Service\Validator
+        arguments:
+            - "%validator.parser.param%"
+            - "@helper.service"
+            - "@persist.parser.service"
+                
+    cache.service:
+        class: App\Service\Cache
+        arguments:
+            - '@cache.app'
+   
+    bot.service:
+        class: App\Service\Bot
+        arguments:
+            - "%bot.param%"
+                
+    queue.service:
+        class: App\Service\Queue
+        arguments:
+            - "%queue.param%"
+            
+    sender.service:
+        class: App\Service\Sender
+        arguments:
+            - "%sender.param%"
+                
+    creator.parser.service:
+        class: App\Service\ParserRunCreator
+        arguments:
+            - "@doctrine.orm.entity_manager"
+            - "%system.param%"
+            - "@validator.parser.service"
+            - "@venera.parser.service"
+            - "@bot.service"
+                
+    categoryFilter.service:
+        class: App\Service\CategoryFilter
+        arguments:
+            - "@doctrine.orm.entity_manager"
+            - "%system.param%"
+            - "@bot.service"
+        
+    sheafCollection.service:
+        class: App\Service\SheafCollection
+        arguments:
+            - "@doctrine.orm.entity_manager"
+            - "%system.param%"
+            - "@bot.service"
+        
+    garbageProduct.service:
+        class: App\Service\GarbageProduct
+        arguments:
+            - "@doctrine.orm.entity_manager"
+            - "%system.param%"
+            - "@bot.service"
+
+    marketExport.service:
+        class: App\Service\MarketExport
+        arguments:
+            - "@doctrine.orm.entity_manager"
+            - "%system.param%"
+            - "@bot.service"
+                
+    offerRead.service:
+        class: App\Service\OfferRead
+        arguments:
+            - "@doctrine.orm.entity_manager"
+            - "%system.param%"
+            - "@bot.service"
+
+    statsSender.service:
+        class: App\Service\StatsSender
+        arguments:
+            - "@doctrine.orm.entity_manager"
+            - "%system.param%"
+            - "@bot.service"
+
+    marketPlace.service:
+        class: App\Service\MarketPlace
+        arguments:
+            - "@doctrine.orm.entity_manager"
+            - "%system.param%"
+            - "@bot.service"
+            - "@log.service"
+            
+    reading.image.service:
+        class: App\Service\ReadingImage
+        arguments:
+            - "%system.param%"
+            - "@doctrine.orm.entity_manager"

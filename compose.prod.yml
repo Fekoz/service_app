@@ -1,0 +1,63 @@
+version: "3.4"
+
+services:
+  service_app:
+    container_name: service_app
+    build:
+      context: .
+      target: symfony_php
+      dockerfile: ./Dockerfile
+      args:
+        SYMFONY_VERSION: ${SYMFONY_VERSION:-}
+        SKELETON: ${SKELETON:-symfony/skeleton}
+        STABILITY: ${STABILITY:-stable}
+        SUPERVISOR: ${SUPERVISOR:-supervisor_prod}
+        APP_TYPE: ${APP_TYPE:-prod}
+    extra_hosts:
+      - "host.docker.internal:172.17.0.1"
+    restart: unless-stopped
+    volumes:
+      - ../external/export:/srv/app/export
+      - ../external/upload:/srv/app/upload
+    healthcheck:
+      interval: 10s
+      timeout: 3s
+      retries: 3
+      start_period: 30s
+    environment:
+      APP_ENV: prod
+      APP_SECRET: 7b5aa1452d1e992ca9a9b495b1455985
+      DATABASE_URL: postgresql://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD:-U5PdRY}@host.docker.internal:5432/${POSTGRES_DB:-app}?serverVersion=${POSTGRES_VERSION:-13}
+      QUEUE_HOST: system_queue
+      QUEUE_PORT: 5672
+      QUEUE_NAME: rabbitmq
+      QUEUE_PASS: rabbitmq
+      PARSER_LOGIN: ____
+      PARSER_PASSWORD: ____
+      SENDER_HOST: mail.nic.ru
+      SENDER_PORT: 2525
+      SENDER_LOGIN: ____
+      SENDER_PASSWORD: ____
+      SENDER_NAME: CARPETTI
+      BOT_TOKEN: ____
+      BOT_ID: ____
+      BOT_GROUP: ____
+      SITE_FACE: https://carpetti.vip
+      SITE_EXTERNAL: https://external.carpetti.vip
+      MAX_ITEM_FILTER: 400
+      MAX_ITEM_COLLECTION: 1000
+      MAX_ITEM_MARKET: 100
+      MARKET_PREFIX: carpetti.id.
+      MARKET_FILE_EXPORT: export.xml
+      MARKET_FILE_IMPORT: business_content_template_new.xlsx
+      MARKET_API_OAUTH_TOKEN: ____
+      MARKET_API_CLIENT_ID: ____
+      MARKET_API_MARKET_ID: ____
+      MARKET_API_ENDPOINT: https://api.partner.market.yandex.ru/v2/campaigns
+      MARKET_API_ENDPOINT_FILE: offers.json
+      APP_CACHED: "memcached://system_cache:11211"
+    networks:
+      - carpetti_prod
+networks:
+  carpetti_prod:
+    external: true

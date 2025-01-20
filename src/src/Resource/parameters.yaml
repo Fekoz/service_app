@@ -1,0 +1,139 @@
+parameters:
+    venera.parser.param:
+        auth:
+            venera:
+                email: '%env(resolve:PARSER_LOGIN)%'
+                password: '%env(resolve:PARSER_PASSWORD)%'
+                count: 60
+        page:
+            venera:
+                name: 'venera-carpet.ru'
+                url: 'https://venera-carpet.ru'
+                auth: '/user/auth.html'
+                filter: '/category/index.html?fSt=filter&changePhoto=1&categoryId=0&photos=1&warehouses[]=4&warehouses[]=7&warehouseType=many&priceFrom=&priceTo='
+                catalog: '/category/index.html?page={PARAM}&fSt=filter&photos=1&categoryId=0'
+                warehouseCategories: '/category/index.html?fSt=filter&categoryId=0&word=&warehouses[]=4&warehouses[]=7'
+                error: 'Личный кабинет'
+                limit: 0
+                fake: true
+        fake:
+            venera:
+                name: 'venera-carpet.ru'
+                key: 'PHPSESSID'
+                value: ''
+    
+    validator.parser.param:
+        default_factor: 3.0
+        kernel_dir: '%kernel.project_dir%'
+        is_download_image: true
+        market_factor: 3000
+        mid: 10000000
+        mskuid: 'cs1'
+        avtuid: 'av1'
+        is_production: true
+            
+    run.upd.param:
+        range: 'PT1H'
+        iterate: 0.2
+        sleep: 760
+        list: 120
+        name: 'run.upd.item'
+        limit: 50990000
+        
+    run.crt.param:
+        iterate: 0.4
+        sleep: 760
+        name: 'run.crt.item'
+        limit: 50990000
+    
+    run.smp.param:
+        iterate: 1.2
+        sleep: 52000
+        name: 'run.send.mp'
+        limit: 60990000
+        min: 10
+        max: 30
+        ttl: 13600
+        
+    run.check.attribute:
+        iterate: 1
+        sleep: 18000
+        name: 'run.check.attribute'
+        limit: 60990000
+        min: 10
+        max: 30
+        ttl: 13600
+
+    sender.param:
+        server: '%env(resolve:SENDER_HOST)%'
+        port: '%env(resolve:SENDER_PORT)%'
+        login: '%env(resolve:SENDER_LOGIN)%'
+        password: '%env(resolve:SENDER_PASSWORD)%'
+        name: '%env(resolve:SENDER_NAME)%'
+        kernel_dir: '%kernel.project_dir%'
+        timeout: 250
+        
+    bot.param:
+        telegram:
+            token: '%env(resolve:BOT_TOKEN)%'
+            bot_id: '%env(resolve:BOT_ID)%'
+            only_way: true
+            group_telegram_id: '%env(resolve:BOT_GROUP)%'
+            
+    queue.param:
+        host: '%env(resolve:QUEUE_HOST)%'
+        port: '%env(resolve:QUEUE_PORT)%'
+        name: '%env(resolve:QUEUE_NAME)%'
+        pass: '%env(resolve:QUEUE_PASS)%'
+        
+    consumer.param:
+        email:
+            name: 'email'
+            limit: 38990000
+        telegram:
+            name: 'telegram'
+            limit: 38990000
+        package:
+            name: 'package'
+            limit: 46990000
+        runupditem:
+            name: 'run.upd.item'
+            limit: 50990000
+        runcrtitem:
+            name: 'run.crt.item'
+            limit: 48990000
+        
+    system.param:
+        kernel_dir: '%kernel.project_dir%'
+        carpetti_web: '%env(resolve:SITE_FACE)%'
+        external_carpetti_web: '%env(resolve:SITE_EXTERNAL)%'
+        maxItemFilter: '%env(resolve:MAX_ITEM_FILTER)%'
+        maxItemCollection: '%env(resolve:MAX_ITEM_COLLECTION)%'
+        maxItemMarket: '%env(resolve:MAX_ITEM_MARKET)%'
+        marketSkuidPrefix: '%env(resolve:MARKET_PREFIX)%'
+        marketExportFileName: '%env(resolve:MARKET_FILE_EXPORT)%'
+        marketExportXlsFileName: '%env(resolve:MARKET_FILE_IMPORT)%'
+        market_api_oauth_token: '%env(resolve:MARKET_API_OAUTH_TOKEN)%'
+        market_api_client_id: '%env(resolve:MARKET_API_CLIENT_ID)%'
+        market_api_market_id: '%env(resolve:MARKET_API_MARKET_ID)%'
+        market_api_endpoint: '%env(resolve:MARKET_API_ENDPOINT)%'
+        market_api_endpoint_file: '%env(resolve:MARKET_API_ENDPOINT_FILE)%'
+        price:
+            factor: 1
+            markup: 2000
+            isRandom: false
+            minRnd: 0
+            maxRnd: 0
+            ozon_factor: 1
+            yandex_factor: 1
+            wildberries_factor: 1
+        priceOld:
+            factor: 1
+            markup: 2000
+            isRandom: false
+            minRnd: 0
+            maxRnd: 0
+            ozon_factor: 1
+            yandex_factor: 1
+            wildberries_factor: 1
+        isMini: false
